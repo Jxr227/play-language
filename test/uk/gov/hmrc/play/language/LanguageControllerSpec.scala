@@ -16,9 +16,11 @@
 
 package uk.gov.hmrc.play.language
 
+import javax.inject.Inject
 import org.scalatestplus.play.PlaySpec
 import play.api.Play
 import play.api.Play.current
+import play.api.i18n.Langs
 import play.api.i18n.Messages.Implicits._
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.Cookie
@@ -26,7 +28,7 @@ import play.api.test.Helpers._
 import play.api.test._
 import uk.gov.hmrc.play.language.LanguageUtils._
 
-class TestLanguageController extends LanguageController {
+class TestLanguageController @Inject()(implicit val langs: Langs) extends LanguageController {
 
   override protected def fallbackURL = "http://gov.uk/fallback"
 

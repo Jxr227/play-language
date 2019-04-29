@@ -21,15 +21,16 @@ import java.util.Locale
 import org.joda.time.{DateTime, LocalDate}
 import org.scalatest.{FlatSpec, Matchers}
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.i18n.{Lang, Messages, MessagesApi, MessagesImpl}
 import uk.gov.hmrc.play.language.LanguageUtils.Dates._
 
 class LanguageUtilsSpec extends FlatSpec with Matchers with GuiceOneAppPerSuite {
 
   val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  val messagesEnglish: Messages = Messages(Lang(new Locale("en")), messagesApi)
-  val messagesWelsh: Messages = Messages(Lang(new Locale("cy")), messagesApi)
-  val messagesSpanish: Messages = Messages(Lang(new Locale("es")), messagesApi)
+
+  val messagesEnglish: Messages = MessagesImpl(Lang(new Locale("en")), messagesApi)
+  val messagesWelsh: Messages = MessagesImpl(Lang(new Locale("cy")), messagesApi)
+  val messagesSpanish: Messages = MessagesImpl(Lang(new Locale("es")), messagesApi)
 
   val date = new LocalDate(2015, 1, 25)
   val dateAndTime = new DateTime(2015, 1, 25, 3, 45)

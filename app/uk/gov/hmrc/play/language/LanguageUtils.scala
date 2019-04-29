@@ -20,7 +20,7 @@ import com.ibm.icu.text.SimpleDateFormat
 import com.ibm.icu.util.{TimeZone, ULocale}
 import org.joda.time.{DateTime, LocalDate}
 import play.api.Play
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.{Lang, Langs, Messages, MessagesApi}
 import play.api.mvc._
 
 /** This object provides access to common language utilities.
@@ -34,9 +34,6 @@ import play.api.mvc._
   *
   */
 object LanguageUtils {
-
-  import play.api.i18n.Messages.Implicits._
-
   val EnglishLangCode = "en"
   val WelshLangCode = "cy"
 
@@ -57,11 +54,11 @@ object LanguageUtils {
     * @param request The RequestHeader object to extract the language information from.
     * @return Lang object containing the current langugage.
     */
-  def getCurrentLang(implicit request: RequestHeader): Lang = {
-    Play.maybeApplication.map { implicit app =>
-      val maybeLangFromCookie = request.cookies.get(Play.langCookieName).flatMap(c => Lang.get(c.value))
-      maybeLangFromCookie.getOrElse(Lang.preferred(request.acceptLanguages))
-    }.getOrElse(request.acceptLanguages.headOption.getOrElse(Lang.defaultLang))
+  def getCurrentLang(implicit request: RequestHeader, messagesApi: MessagesApi, langs: Langs): Lang = {
+    request.cookies
+      .get(Play.langCookieName)
+      .flatMap(lang => Lang.get(lang.value))
+      .getOrElse(langs.preferred(request.acceptLanguages))
   }
 
   /** Helper object to correctly display and format dates in both English and Welsh.

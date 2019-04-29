@@ -17,9 +17,8 @@
 package uk.gov.hmrc.play.language
 
 import javax.inject.Inject
-
 import play.api.Application
-import play.api.i18n.{I18nSupport, Lang, MessagesApi}
+import play.api.i18n.{I18nSupport, Lang, Langs, MessagesApi}
 import play.api.mvc._
 
 /**
@@ -30,7 +29,7 @@ import play.api.mvc._
   * It also expects a languageMap to be defined, this provides a way of mapping strings to Lang objects.
   *
   */
-abstract class LanguageController @Inject()(implicit val messagesApi: MessagesApi, application: Application) extends Controller with I18nSupport {
+abstract class LanguageController @Inject()(implicit val messagesApi: MessagesApi, application: Application, langs: Langs) extends Controller with I18nSupport {
 
   /** A URL to fallback to if there is no referrer found in the request header **/
   protected def fallbackURL: String
